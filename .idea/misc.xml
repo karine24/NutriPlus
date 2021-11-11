@@ -3,7 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Faculdade/OtimizacaoDeSistemas/TrabalhoPratico/NutriPlus/app/src/main/res/layout/activity_listagem_alimentos.xml" value="0.33" />
         <entry key="..\:/Faculdade/OtimizacaoDeSistemas/TrabalhoPratico/NutriPlus/app/src/main/res/layout/activity_main.xml" value="0.21784420289855072" />
+        <entry key="..\:/Faculdade/OtimizacaoDeSistemas/TrabalhoPratico/NutriPlus/app/src/main/res/layout/item_alimento.xml" value="0.5" />
+        <entry key="..\:/Faculdade/OtimizacaoDeSistemas/TrabalhoPratico/NutriPlus/app/src/main/res/layout/listagem_alimentos.xml" value="0.2848731884057971" />
       </map>
     </option>
   </component>
