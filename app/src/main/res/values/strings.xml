@@ -2,4 +2,9 @@
     <string name="app_name">NutriPlus</string>
     <string name="desmarque_opcoes">Desmarque as opções abaixo que não deseja ter na sua dieta: </string>
     <string name="proximo">Próximo</string>
+    <string name="bem_vindo">Bem vindo ao NutriPlus!</string>
+    <string name="iniciar">Iniciar</string>
+    <string name="digite_calorias">Digite a quantidade máxima de caloria a ser consumida (kcal):</string>
+    <string name="input_calorias">Calorias</string>
+    <string name="valor_recomendado">Obs.: Valor recomendado 2000 kcal</string>
 </resources>
