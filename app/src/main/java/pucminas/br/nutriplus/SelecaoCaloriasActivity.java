@@ -9,6 +9,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import org.chocosolver.solver.Model;
+
 public class SelecaoCaloriasActivity extends AppCompatActivity {
 
     private EditText caloriasTela;
