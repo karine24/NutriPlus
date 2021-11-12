@@ -1,10 +1,8 @@
 package pucminas.br.nutriplus;
 
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -12,19 +10,22 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class SelecaoAlimentosAdapter extends RecyclerView.Adapter<SelecaoAlimentosAdapter.MyViewHolder>{
-    private List<Alimento> mDataset;
-    OnClickListener<Alimento> onClickListener;
+    private final List<Alimento> mDataset;
 
-    public SelecaoAlimentosAdapter(OnClickListener<Alimento> clickListener) {
+    public SelecaoAlimentosAdapter() {
         mDataset = new ArrayList<>();
-        onClickListener = clickListener;
     }
 
     public void setList(List<Alimento> alimentos) {
         mDataset.addAll(alimentos);
-        notifyDataSetChanged();
+        notifyItemRangeInserted(getItemCount(), alimentos.size());
+    }
+
+    public List<Alimento> getSelectedAliments(){
+        return mDataset.stream().filter(Alimento::isSelecionado).collect(Collectors.toList());
     }
 
     @NonNull
@@ -39,12 +40,9 @@ public class SelecaoAlimentosAdapter extends RecyclerView.Adapter<SelecaoAliment
         Alimento alimento = mDataset.get(position);
         holder.checkBox.setChecked(alimento.isSelecionado());
         holder.checkBox.setText(alimento.getNome());
-        holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                alimento.setSelecionado(!alimento.isSelecionado());
-                onClickListener.onClick(alimento);
-            }
+        holder.checkBox.setOnCheckedChangeListener((compoundButton, b) -> {
+            alimento.setSelecionado(!alimento.isSelecionado());
+            mDataset.add(holder.getAdapterPosition(), alimento);
         });
     }
 
@@ -62,8 +60,4 @@ public class SelecaoAlimentosAdapter extends RecyclerView.Adapter<SelecaoAliment
             checkBox = v.findViewById(R.id.checkBox);
         }
     }
-}
-
-interface OnClickListener<T> {
-    void onClick(T T);
 }

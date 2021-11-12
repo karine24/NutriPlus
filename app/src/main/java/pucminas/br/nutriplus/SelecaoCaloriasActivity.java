@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class SelecaoCaloriasActivity extends AppCompatActivity {
 
@@ -20,13 +21,20 @@ public class SelecaoCaloriasActivity extends AppCompatActivity {
         Button buttonProximo = findViewById(R.id.buttonProximo);
         caloriasTela = findViewById(R.id.edit_calorias);
 
-        buttonProximo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent telaAlimentos = new Intent(SelecaoCaloriasActivity.this, SelecaoAlimentosActivity.class);
-                telaAlimentos.putExtra("caloria", caloriasTela.getText().toString());
-                startActivity(telaAlimentos);
-            }
-        });
+        buttonProximo.setOnClickListener(view -> verifiqueAndProssiga());
+    }
+
+    private void verifiqueAndProssiga() {
+        if (!caloriasTela.getText().toString().equals("")) {
+            Intent telaAlimentos = new Intent(SelecaoCaloriasActivity.this, SelecaoAlimentosActivity.class);
+            telaAlimentos.putExtra("caloria", Integer.parseInt(caloriasTela.getText().toString()));
+            startActivity(telaAlimentos);
+        } else {
+            Toast.makeText(
+                    SelecaoCaloriasActivity.this,
+                    "Por favor! Digite um valor",
+                    Toast.LENGTH_LONG
+            ).show();
+        }
     }
 }

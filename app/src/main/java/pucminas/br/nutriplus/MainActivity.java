@@ -16,10 +16,7 @@ public class MainActivity extends AppCompatActivity {
 
         Button buttonIniciar = findViewById(R.id.buttonIniciar);
 
-        buttonIniciar.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, SelecaoCaloriasActivity.class));
-            }
-        });
+        buttonIniciar.setOnClickListener(v ->
+                startActivity(new Intent(MainActivity.this, SelecaoCaloriasActivity.class)));
     }
 }
