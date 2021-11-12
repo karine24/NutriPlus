@@ -8,14 +8,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-public class SelecaoCalorias extends AppCompatActivity {
+public class SelecaoCaloriasActivity extends AppCompatActivity {
 
     private EditText caloriasTela;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_selecao_alimentos);
+        setContentView(R.layout.activity_selecao_calorias);
 
         Button buttonProximo = findViewById(R.id.buttonProximo);
         caloriasTela = findViewById(R.id.edit_calorias);
@@ -23,8 +23,9 @@ public class SelecaoCalorias extends AppCompatActivity {
         buttonProximo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int calorias =  Integer.parseInt(caloriasTela.getText().toString());
-                startActivity(new Intent(SelecaoCalorias.this, SelecaoAlimentos.class));
+                Intent telaAlimentos = new Intent(SelecaoCaloriasActivity.this, SelecaoAlimentosActivity.class);
+                telaAlimentos.putExtra("caloria", caloriasTela.getText().toString());
+                startActivity(telaAlimentos);
             }
         });
     }

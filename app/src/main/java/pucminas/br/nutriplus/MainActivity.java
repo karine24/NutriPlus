@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
 
         buttonIniciar.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, SelecaoCalorias.class));
+                startActivity(new Intent(MainActivity.this, SelecaoCaloriasActivity.class));
             }
         });
     }
