@@ -1,6 +1,9 @@
 package pucminas.br.nutriplus;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,8 +21,11 @@ public class SelecaoAlimentosActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_listagem_alimentos);
+        Button entrarButton = findViewById(R.id.proximoButton);
 
-        List<Alimento> alimentos = new ArrayList<>();
+        int energiaMaxima = Integer.parseInt(getIntent().getStringExtra("caloria"));
+
+        ArrayList<Alimento> alimentos = new ArrayList<>();
         alimentos.add(new Alimento("Bife contra filé", 0D, 24.7, 16.9, 0D, 249.6));
         alimentos.add(new Alimento("Acém picado", 2D, 14.4, 3.4, 0D, 96.8));
         alimentos.add(new Alimento("Carne moida refogada",  3.9, 6.8, 3.9, 0D, 77D));
@@ -41,5 +47,15 @@ public class SelecaoAlimentosActivity extends AppCompatActivity {
         });
         recyclerView.setAdapter(selecaoAlimentosAdapter);
         selecaoAlimentosAdapter.setList(alimentos);
+
+        entrarButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(SelecaoAlimentosActivity.this, ResultadoSolverActivity.class);
+                intent.putExtra("energiaMaxima", energiaMaxima);
+                intent.putExtra("alimentosEscolhidos", alimentos);
+                startActivity(intent);
+            }
+        });
     }
 }

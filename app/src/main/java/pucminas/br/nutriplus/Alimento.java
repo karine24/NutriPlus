@@ -1,6 +1,8 @@
 package pucminas.br.nutriplus;
 
-public class Alimento {
+import java.io.Serializable;
+
+public class Alimento implements Serializable {
     private String nome;
     private boolean selecionado;
     private double carboidratos;
