@@ -7,11 +7,13 @@
 
     <TextView
         android:id="@+id/textView"
-        android:layout_marginTop="16dp"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/desmarque_opcoes"
+        android:layout_marginTop="16dp"
+        android:fontFamily="serif"
         android:gravity="center"
+        android:text="@string/desmarque_opcoes"
+        android:textColor="@color/gray"
         app:layout_constraintBottom_toTopOf="@+id/rv_ingredientes"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -36,6 +38,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="13dp"
         android:layout_marginBottom="16dp"
+        android:fontFamily="serif"
         android:text="@string/proximo"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -72,8 +72,7 @@ public class ResultadoSolverActivity extends AppCompatActivity implements Optimi
         ((App)getApplication()).threadPoolExecutor.execute(new Runnable() {
             @Override
             public void run() {
-//                Optimisation.Result result = model.maximise();
-                Optimisation.Result result = model.minimise();
+                Optimisation.Result result = model.maximise();
                 optimisationResult.onReceiveResult(result);
             }
         });
@@ -93,9 +92,9 @@ public class ResultadoSolverActivity extends AppCompatActivity implements Optimi
                 BasicLogger.debug();
 
                 if(result.getState().isSuccess()) {
-                    resultadoTexto += "Alimentos/Quantidade escolhidos para sua dieta:\n";
+                    resultadoTexto += "Alimentos/Quantidade escolhidos para sua dieta:\n\n\n";
                     model.variables().filter(variable -> variable.getValue().compareTo(BigDecimal.ZERO) > 0).forEach(variable -> {
-                        resultadoTexto += variable.getName() + " " + variable.getValue() + "\n";
+                        resultadoTexto += variable.getName() + " " + variable.getValue() + "\n\n";
                     });
                     resultadoSolverTexto.setText(resultadoTexto);
                 } else {
