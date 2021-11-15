@@ -38,11 +38,12 @@ public class SelecaoAlimentosAdapter extends RecyclerView.Adapter<SelecaoAliment
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         Alimento alimento = mDataset.get(position);
+        holder.checkBox.setOnCheckedChangeListener(null);
+
         holder.checkBox.setChecked(alimento.isSelecionado());
         holder.checkBox.setText(alimento.getNome());
         holder.checkBox.setOnCheckedChangeListener((compoundButton, b) -> {
-            alimento.setSelecionado(!alimento.isSelecionado());
-            mDataset.add(holder.getAdapterPosition(), alimento);
+            mDataset.get(holder.getAdapterPosition()).setSelecionado(b);
         });
     }
 

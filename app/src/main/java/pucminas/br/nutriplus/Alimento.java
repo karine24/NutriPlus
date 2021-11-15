@@ -4,23 +4,23 @@ import java.io.Serializable;
 
 public class Alimento implements Serializable {
     private String nome;
+    private Double caboidrato;
+    private Double proteina;
+    private Double lipidios;
+    private Double fibraAlimentar;
+    private Double energia;
     private boolean selecionado;
-    private double carboidratos;
-    private double proteinas;
-    private double lipideos;
-    private double fibraAlimentar;
-    private double energia;
 
     public Alimento(String nome,
-                    double carboidratos,
-                    double proteinas,
-                    double lipideos,
-                    double fibraAlimentar,
-                    double energia) {
+                    Double caboidrato,
+                    Double proteina,
+                    Double lipidios,
+                    Double fibraAlimentar,
+                    Double energia) {
         this.nome = nome;
-        this.carboidratos = carboidratos;
-        this.proteinas = proteinas;
-        this.lipideos = lipideos;
+        this.caboidrato = caboidrato;
+        this.proteina = proteina;
+        this.lipidios = lipidios;
         this.fibraAlimentar = fibraAlimentar;
         this.energia = energia;
         this.selecionado = true;
@@ -34,51 +34,51 @@ public class Alimento implements Serializable {
         this.nome = nome;
     }
 
-    public double getCarboidratos() {
-        return carboidratos;
-    }
-
-    public void setCarboidratos(double carboidratos) {
-        this.carboidratos = carboidratos;
-    }
-
-    public double getProteinas() {
-        return proteinas;
-    }
-
-    public void setProteinas(double proteinas) {
-        this.proteinas = proteinas;
-    }
-
-    public double getLipideos() {
-        return lipideos;
-    }
-
-    public void setLipideos(double lipideos) {
-        this.lipideos = lipideos;
-    }
-
-    public double getFibraAlimentar() {
-        return fibraAlimentar;
-    }
-
-    public void setFibraAlimentar(double fibraAlimentar) {
-        this.fibraAlimentar = fibraAlimentar;
-    }
-
-    public double getEnergia() {
-        return energia;
-    }
-
-    public void setEnergia(double energia) {
-        this.energia = energia;
-    }
-
     public boolean isSelecionado() {
         return selecionado;
     }
 
     public void setSelecionado(boolean selecionado) {
         this.selecionado = selecionado;
+    }
+
+    public Double getCaboidrato() {
+        return caboidrato;
+    }
+
+    public void setCaboidrato(Double caboidrato) {
+        this.caboidrato = caboidrato;
+    }
+
+    public Double getProteina() {
+        return proteina;
+    }
+
+    public void setProteina(Double proteina) {
+        this.proteina = proteina;
+    }
+
+    public Double getLipidios() {
+        return lipidios;
+    }
+
+    public void setLipidios(Double lipidios) {
+        this.lipidios = lipidios;
+    }
+
+    public Double getFibraAlimentar() {
+        return fibraAlimentar;
+    }
+
+    public void setFibraAlimentar(Double fibraAlimentar) {
+        this.fibraAlimentar = fibraAlimentar;
+    }
+
+    public Double getEnergia() {
+        return energia;
+    }
+
+    public void setEnergia(Double energia) {
+        this.energia = energia;
     }
 }

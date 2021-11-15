@@ -1,8 +1,14 @@
 package pucminas.br.nutriplus;
 
-import androidx.appcompat.app.AppCompatActivity;
+import static android.os.AsyncTask.execute;
 
+import android.app.Application;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import org.ojalgo.OjAlgoUtils;
 import org.ojalgo.netio.BasicLogger;
@@ -11,12 +17,31 @@ import org.ojalgo.optimisation.ExpressionsBasedModel;
 import org.ojalgo.optimisation.Optimisation;
 import org.ojalgo.optimisation.Variable;
 
-public class ResultadoSolverActivity extends AppCompatActivity {
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+public class ResultadoSolverActivity extends AppCompatActivity implements OptimisationResult {
+    // Create a new model.
+    ExpressionsBasedModel model = new ExpressionsBasedModel();
+    TextView resultadoSolverTexto;
+    String resultadoTexto = "";
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_resultado_solver);
+
+        resultadoSolverTexto = findViewById(R.id.resultadoSolverTexto);
+        progressBar = findViewById(R.id.progressBar);
+
+        ExecutorService executorService = Executors.newFixedThreadPool(8);
+
+        double energiaMaxima = getIntent().getDoubleExtra("energiaMaxima", 2000.0);
+        List<Alimento> alimentos = (ArrayList<Alimento>)getIntent().getSerializableExtra("alimentosEscolhidos");
 
         BasicLogger.debug();
         BasicLogger.debug(ResultadoSolverActivity.class);
@@ -24,48 +49,64 @@ public class ResultadoSolverActivity extends AppCompatActivity {
         BasicLogger.debug(OjAlgoUtils.getDate());
         BasicLogger.debug();
 
-        // Create a new model.
-        ExpressionsBasedModel model = new ExpressionsBasedModel();
+        Expression proteina = model.addExpression("Proteina").lower(60.0);
+        Expression carboidrato = model.addExpression("Carboidrato").lower(310.0);
+        Expression lipidios = model.addExpression("Lipidios").lower(60.0);
+        Expression fibraAlimentar = model.addExpression("Fibra alimentar").lower(25.0);
+        Expression calorias = model.addExpression("Calorias").upper(energiaMaxima);
 
-        // Add variables expressing servings of each of the considered foods
-        // Set lower and upper limits on the number of servings as well as the weight (cost of a
-        // serving) for each variable.
-        Variable bread = model.addVariable("Bread").lower(0).upper(10).weight(0.05);
-        Variable corn = model.addVariable("Corn").lower(0).upper(10).weight(0.18);
-        Variable milk = model.addVariable("Milk").lower(0).upper(10).weight(0.23);
 
-        // Create a vitamin A constraint.
-        // Set lower and upper limits and then specify how much vitamin A a serving of each of the
-        // foods contain.
-        Expression vitaminA = model.addExpression("Vitamin A").lower(5000).upper(50000);
-        vitaminA.set(bread, 0).set(corn, 107).set(milk, 500);
+        for(Alimento alimento : alimentos) {
+            Variable variable = model.addVariable(alimento.getNome()).lower(0).upper(3);
+            proteina.set(variable, alimento.getProteina());
+            carboidrato.set(variable, alimento.getCaboidrato());
+            lipidios.set(variable, alimento.getLipidios());
+            fibraAlimentar.set(variable, alimento.getFibraAlimentar());
+            calorias.set(variable, alimento.getEnergia());
+            variable.integer(true);
+        }
 
-        // Create a calories constraint...
-        Expression calories = model.addExpression("Calories").lower(2000).upper(2250);
-        calories.set(bread, 65).set(corn, 72).set(milk, 121);
+        OptimisationResult optimisationResult = this;
 
-        // Solve the problem - minimise the cost
-        Optimisation.Result result = model.minimise();
-
-        // Print the result
-        BasicLogger.debug();
-        BasicLogger.debug(result);
-        BasicLogger.debug();
-
-        // Modify the model to require an integer valued solution.
-        BasicLogger.debug("Adding integer constraints...");
-        bread.integer(true);
-        corn.integer(true);
-        milk.integer(true);
-
-        // Solve again
-        result = model.minimise();
-
-        // Print the result, and the model
-        BasicLogger.debug();
-        BasicLogger.debug(result);
-        BasicLogger.debug();
-        BasicLogger.debug(model);
-        BasicLogger.debug();
+        // Solve the problem - maximise the cost
+        ((App)getApplication()).threadPoolExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+//                Optimisation.Result result = model.maximise();
+                Optimisation.Result result = model.minimise();
+                optimisationResult.onReceiveResult(result);
+            }
+        });
     }
+
+    @Override
+    public void onReceiveResult(Optimisation.Result result) {
+        // Print the result, and the model
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                progressBar.setVisibility(View.GONE);
+                BasicLogger.debug();
+                BasicLogger.debug(result);
+                BasicLogger.debug();
+                BasicLogger.debug(model);
+                BasicLogger.debug();
+
+                if(result.getState().isSuccess()) {
+                    resultadoTexto += "Alimentos/Quantidade escolhidos para sua dieta:\n";
+                    model.variables().filter(variable -> variable.getValue().compareTo(BigDecimal.ZERO) > 0).forEach(variable -> {
+                        resultadoTexto += variable.getName() + " " + variable.getValue() + "\n";
+                    });
+                    resultadoSolverTexto.setText(resultadoTexto);
+                } else {
+                    resultadoSolverTexto.setText("Não foi possível encontrar um resultado ótimo.");
+                }
+            }
+        });
+
+    }
+}
+
+interface OptimisationResult {
+    void onReceiveResult(Optimisation.Result result);
 }

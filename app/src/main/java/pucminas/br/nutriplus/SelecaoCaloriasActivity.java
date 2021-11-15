@@ -1,15 +1,12 @@
 package pucminas.br.nutriplus;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import org.chocosolver.solver.Model;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class SelecaoCaloriasActivity extends AppCompatActivity {
 
@@ -29,7 +26,7 @@ public class SelecaoCaloriasActivity extends AppCompatActivity {
     private void verifiqueAndProssiga() {
         if (!caloriasTela.getText().toString().equals("")) {
             Intent telaAlimentos = new Intent(SelecaoCaloriasActivity.this, SelecaoAlimentosActivity.class);
-            telaAlimentos.putExtra("caloria", Integer.parseInt(caloriasTela.getText().toString()));
+            telaAlimentos.putExtra("caloria", Double.parseDouble(caloriasTela.getText().toString()));
             startActivity(telaAlimentos);
         } else {
             Toast.makeText(

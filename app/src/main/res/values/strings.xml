@@ -6,5 +6,5 @@
     <string name="iniciar">Iniciar</string>
     <string name="digite_calorias">Digite a quantidade máxima de caloria a ser consumida (kcal):</string>
     <string name="input_calorias">Calorias</string>
-    <string name="valor_recomendado">Obs.: Valor recomendado 2000 kcal</string>
+    <string name="valor_recomendado">Valor recomendado: 2000 kcal</string>
 </resources>

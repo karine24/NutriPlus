@@ -20,7 +20,7 @@ public class SelecaoAlimentosActivity extends AppCompatActivity {
         setContentView(R.layout.activity_listagem_alimentos);
         Button entrarButton = findViewById(R.id.btn_proximo);
 
-        int energiaMaxima = getIntent().getIntExtra("caloria", 2000);
+        double energiaMaxima = getIntent().getDoubleExtra("caloria", 2000.0);
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_ingredientes);
 
